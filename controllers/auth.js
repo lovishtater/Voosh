@@ -13,7 +13,7 @@ exports.signup = (req, res) => {
                 err: "Not able to save user in DB"
             });
         }
-        res.json({
+        return res.json({
             name: user.name,
             email: user.email,
             id: user._id
@@ -68,7 +68,7 @@ exports.isSignedIn = expressJwt({
 
 // validate sign up middleware
 exports.userSignupValidator = (req, res, next) => {
-    // console.log("REQ BODY ON VALIDATOR", req.body);
+    console.log("REQ BODY ON VALIDATOR", req.body);
     const { name, email, password, phoneNumber } = req.body;
     if (!name || !email || !password || !phoneNumber) {
         return res.status(400).json({
