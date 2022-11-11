@@ -104,16 +104,6 @@ exports.userSigninValidator = (req, res, next) => {
     next();
 };
 
-exports.runValidation = (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(422).json({
-            error: errors.array()[0].msg
-        });
-    }
-    next();
-};
-
 
 // Custom middlewares
 exports.isAuthenticated = (req, res, next) => {
@@ -121,6 +111,16 @@ exports.isAuthenticated = (req, res, next) => {
     if (!checker) {
         return res.status(403).json({
             error: "ACCESS DENIED"
+        });
+    }
+    next();
+};
+
+
+exports.isAdmin = (req, res, next) => {
+    if (req.profile.role === 0) {
+        return res.status(403).json({
+            error: "You are not ADMIN, Access denied"
         });
     }
     next();
